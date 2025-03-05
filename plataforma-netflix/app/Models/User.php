@@ -18,9 +18,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 'email', 'password', 'role_id'
     ];
 
     /**
@@ -44,5 +42,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // Relación adicional si deseas verificar roles específicos en el código (opcional)
+    public function isAdmin()
+    {
+        return $this->role->name === 'administrador';  // Verifica si el rol del usuario es "administrador"
+    }
+
+    public function isSuperUser()
+    {
+        return $this->role->name === 'super_usuario';  // Verifica si el rol del usuario es "super_usuario"
     }
 }
